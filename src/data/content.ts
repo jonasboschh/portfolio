@@ -17,7 +17,7 @@ export const site = {
 		"PixelForge Studio bouwt websites, webshops, SEO en maatwerksoftware voor bedrijven die online willen winnen. Gevestigd in Koekelare, België.",
 	url: "https://boschh.netlify.app",
 	email: "jonas@pixelforge.be",
-	phone: "+31 (0)479 555 822",
+	phone: "+32 (0)479 555 822",
 	location: "Koekelare, België",
 };
 
@@ -118,7 +118,7 @@ export const caseStudies: CaseStudy[] = [
 			"https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=900&h=600&fit=crop&auto=format",
 		],
 		result: "+340% omzet in 6 maanden",
-		year: "2024",
+		year: "2026",
 		sector: "Fashion & Lifestyle",
 		duration: "8 weken",
 		tagline: "Dezelfde exclusiviteit, nu ook online.",
@@ -254,7 +254,7 @@ export const caseStudies: CaseStudy[] = [
 			"https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=900&h=600&fit=crop&auto=format",
 		],
 		result: "60% minder administratietijd",
-		year: "2024",
+		year: "2026",
 		sector: "Logistiek & Supply Chain",
 		duration: "16 weken",
 		tagline: "Drie uur per dag terug — elke dag.",
