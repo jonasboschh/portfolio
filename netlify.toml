@@ -1,6 +1,7 @@
 [build]
-  command = "npm install && npm run build"
-  publish = "dist"
-
-[build.environment]
-  NODE_VERSION = "20"
+  command = "vite build"
+  publish = "dist/client"
+[dev]
+  command = "npm run dev"
+  targetPort = 3000
+  port = 8888

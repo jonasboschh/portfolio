@@ -1,0 +1,15 @@
+{
+  "short_name": "PixelForge",
+  "name": "PixelForge Studio",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#08080a",
+  "background_color": "#08080a"
+}
