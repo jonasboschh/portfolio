@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
 			{ property: "og:title", content: `${site.name} — ${site.tagline}` },
 			{ property: "og:description", content: site.description },
 			{ property: "og:url", content: site.url },
-			{ name="google-site-verification" content="P16xafW5KFcSXE5WkqQcvat0o2qaSmKUWx_rWwF6ehc" }
+			{ name:"google-site-verification", content:"P16xafW5KFcSXE5WkqQcvat0o2qaSmKUWx_rWwF6ehc" }
 		],
 		links: [{ rel: "canonical", href: site.url }],
 	}),
