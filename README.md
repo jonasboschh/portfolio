@@ -1,31 +1,27 @@
-# PixelForge Studio
+# Portfolio — Jonas Bosch
 
-Portfolio/agency site for PixelForge Studio, built with [TanStack Start](https://tanstack.com/start) (React, SSR, file-based routing) and [Motion](https://motion.dev) for animation.
+Persoonlijke portfoliosite voor webdesign, webapplicaties, SEO en webshops.
 
-## Stack
+Gebouwd zonder framework of build-stap: alleen HTML, CSS en JavaScript.
 
-- **TanStack Start** — SSR + file-based routing, so the homepage and every case study (`/werk/$slug`) are real, crawlable, individually-titled pages instead of a client-only overlay.
-- **Tailwind CSS v4** — design tokens (colors, fonts) defined in `src/styles.css` via `@theme`.
-- **Motion** (`motion/react`) — scroll reveals, page transitions, marquee, testimonial crossfade.
-- **Biome** — lint + format.
+## Structuur
 
-## Development
+| Bestand | Wat |
+|---|---|
+| `index.html` | Homepage |
+| `werk.html` | Overzicht van alle projecten, met filters |
+| `project.html` | Detailpagina per project (`project.html#<slug>`) |
+| `projects.js` | **Alle projectdata** — voeg hier nieuwe projecten toe |
+| `styles.css` | Alle styling |
+| `script.js` | Interactie op de homepage |
+| `werk.js` | Interactie en rendering voor werk- en projectpagina's |
+
+## Lokaal bekijken
 
 ```bash
-npm install
-npm run dev      # http://localhost:3000
-npm run build    # production build (also emits the Netlify function)
-npm run check    # biome lint + format check
+npx serve .
 ```
 
-## Editing content
+## Online zetten
 
-All copy — services, case studies, testimonials, contact details — lives in one place:
-[`src/data/content.ts`](src/data/content.ts). Case studies are keyed by `slug`, which
-also becomes the URL (`/werk/<slug>`) and drives `public/sitemap.xml`, so add/rename
-entries in both places together.
-
-## Deployment
-
-Configured for Netlify via `@netlify/vite-plugin-tanstack-start` (see `netlify.toml`).
-Push to the connected branch, or run `netlify deploy`.
+Netlify serveert de map direct (zie `netlify.toml`), er is geen build nodig.

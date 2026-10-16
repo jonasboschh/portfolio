@@ -1,7 +1,4 @@
+# Statische site: geen build-stap nodig, Netlify serveert de bestanden direct.
 [build]
-  command = "vite build"
-  publish = "dist/client"
-[dev]
-  command = "npm run dev"
-  targetPort = 3000
-  port = 8888
+  command = "echo 'Statische site - geen build nodig'"
+  publish = "."
