@@ -1,4 +1,35 @@
-# Statische site: geen build-stap nodig, Netlify serveert de bestanden direct.
 [build]
-  command = "echo 'Statische site - geen build nodig'"
-  publish = "."
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Gebundelde assets hebben een hash in de naam en mogen lang gecachet worden
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Oude URL's van de vorige versies doorsturen (301 = permanent)
+[[redirects]]
+  from = "/werk.html"
+  to = "/werk/"
+  status = 301
+
+[[redirects]]
+  from = "/project.html"
+  to = "/werk/"
+  status = 301
+
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+
+# Projectpagina's van de oude TanStack-site die niet meer bestaan
+# (geldt alleen als er geen echt bestand op dat pad staat)
+[[redirects]]
+  from = "/werk/*"
+  to = "/werk/"
+  status = 301

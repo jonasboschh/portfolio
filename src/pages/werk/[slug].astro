@@ -1,0 +1,139 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BrowserMockup from "../../components/BrowserMockup.astro";
+import { getProjects, projectPath, type Project } from "../../data/projects";
+import { SITE } from "../../data/site";
+import { breadcrumbSchema, siteUrl } from "../../data/schema";
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, next: projects[(i + 1) % projects.length] },
+  }));
+}
+
+interface Props {
+  project: Project;
+  next: Project;
+}
+
+const { project, next } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+
+const title = data.seoTitle ?? `${data.name} — ${data.label} | ${SITE.name}`;
+const url = projectPath(project);
+const liveIsExternal = data.live ? /^https?:/.test(data.live) : false;
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: data.name,
+    headline: title,
+    description: data.description,
+    url: siteUrl(Astro.site, url),
+    dateCreated: String(data.year),
+    inLanguage: "nl",
+    keywords: [...data.services, ...data.stack].join(", "),
+    creator: { "@type": "Person", "@id": siteUrl(Astro.site, "/#person"), name: SITE.name },
+    ...(liveIsExternal ? { sameAs: data.live } : {}),
+  },
+  breadcrumbSchema(Astro.site, [
+    ["Home", "/"],
+    ["Werk", "/werk/"],
+    [data.name, url],
+  ]),
+];
+---
+
+<BaseLayout title={title} description={data.description} ogType="article" jsonLd={jsonLd}>
+  <section class="page-hero work">
+    <div class="wrap">
+      <nav class="crumbs reveal" aria-label="Kruimelpad">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/werk/">Werk</a></li>
+          <li aria-current="page">{data.name}</li>
+        </ol>
+      </nav>
+      <div class="case__meta reveal">
+        <span>{data.type}</span><span>{data.label}</span><span>{data.tags}</span><span>{data.year}</span>
+      </div>
+      <h1 class="page-title reveal">{data.name}</h1>
+      <p class="page-lede reveal">{data.summary}</p>
+      <dl class="facts reveal">
+        <div><dt>Rol</dt><dd>{data.role}</dd></div>
+        <div><dt>Duur</dt><dd>{data.duration}</dd></div>
+        <div><dt>Diensten</dt><dd>{data.services.join(", ")}</dd></div>
+        <div><dt>Tools</dt><dd>{data.stack.join(", ")}</dd></div>
+        {
+          data.live && (
+            <div>
+              <dt>Live</dt>
+              <dd>
+                <a href={data.live} {...(liveIsExternal ? { target: "_blank", rel: "noopener" } : {})}>
+                  Bekijk live <span aria-hidden="true">↗</span>
+                </a>
+              </dd>
+            </div>
+          )
+        }
+      </dl>
+      <div class="project__visual reveal">
+        <div class="case__visual" style={`--c1:${data.palette.c1};--c2:${data.palette.c2};--c3:${data.palette.c3}`} role="img" aria-label={`Impressie van ${data.name}`}>
+          <BrowserMockup project={project} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <article class="project-body wrap">
+    <section class="project-row reveal">
+      <h2><span>01</span> De uitdaging</h2>
+      <div class="project-lead prose"><Content /></div>
+    </section>
+    <section class="project-row reveal">
+      <h2><span>02</span> Aanpak</h2>
+      <ol class="steps">{data.approach.map((s) => <li>{s}</li>)}</ol>
+    </section>
+    {
+      data.results.length > 0 && (
+        <section class="project-row reveal">
+          <h2><span>03</span> Resultaat</h2>
+          <ul class="results">
+            {data.results.map((r) => (
+              <li><strong>{r.value}</strong><span>{r.label}</span></li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+    {
+      data.quote && (
+        <figure class="quote reveal">
+          <blockquote><p>“{data.quote.text}”</p></blockquote>
+          <figcaption>{data.quote.author}</figcaption>
+        </figure>
+      )
+    }
+  </article>
+
+  <section class="project-cta wrap" aria-label="Verder kijken">
+    {
+      next.id !== project.id && (
+        <a href={projectPath(next)} class="next-project reveal">
+          <span>Volgend project</span>
+          <strong>{next.data.name} <span aria-hidden="true">→</span></strong>
+        </a>
+      )
+    }
+    <div class="cta-card reveal">
+      <h2>Een vergelijkbaar project <em>in gedachten?</em></h2>
+      <p>Vertel me er kort over. Je hoort binnen één werkdag van me.</p>
+      <a href="/#contact" class="btn btn--solid magnetic">Start een project <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</BaseLayout>

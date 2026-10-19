@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/home/Hero.astro";
+import Logos from "../components/home/Logos.astro";
+import FeaturedWork from "../components/home/FeaturedWork.astro";
+import Services from "../components/home/Services.astro";
+import Freelance from "../components/home/Freelance.astro";
+import Contact from "../components/home/Contact.astro";
+// import About from "../components/home/About.astro"; // staat uit — zie het commentaar in About.astro
+import { getProjects } from "../data/projects";
+import { homeSchema } from "../data/schema";
+
+const projects = await getProjects();
+const featured = projects.filter((p) => p.data.featured);
+---
+
+<BaseLayout
+  title="Webdesign, webapps, SEO & webshops | Jonas Bosch"
+  description="Ik ontwerp en bouw snelle, vindbare websites, webapplicaties en webshops voor bedrijven in Nederland. Vaste prijs, direct contact en reactie binnen één werkdag."
+  jsonLd={homeSchema(Astro.site)}
+  cursorLabel="Bekijk case"
+>
+  <!-- Korte intro-animatie (verdwijnt vanzelf, ook zonder JavaScript) -->
+  <div class="intro" aria-hidden="true" slot="before">
+    <span class="intro__mark"><em>jb</em></span>
+  </div>
+
+  <Hero projects={featured.length ? featured : projects} />
+  <Logos />
+  <FeaturedWork projects={featured} total={projects.length} />
+  <Services />
+  <Freelance />
+  <Contact />
+</BaseLayout>
+
+<script>
+  import "../scripts/home";
+</script>

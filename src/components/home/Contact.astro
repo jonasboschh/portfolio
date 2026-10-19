@@ -1,0 +1,71 @@
+---
+import { SITE } from "../../data/site";
+
+const services = ["Website", "Webapplicatie", "SEO", "Webshop", "Freelance inhuur", "Weet ik nog niet"];
+const budgets = ["€5–10k", "€10–25k", "€25–50k", "€50k+"];
+---
+
+<section class="contact" id="contact">
+  <div class="wrap contact__grid">
+    <div class="contact__intro">
+      <p class="kicker reveal"><span>04</span> Contact</p>
+      <h2 class="reveal">Een project in gedachten?<br /><em>Laten we het vindbaar maken.</em></h2>
+      <p class="contact__lede reveal">
+        Vertel me er kort iets over — twee minuten is genoeg. Je hoort binnen één werkdag persoonlijk van me, met een eerlijk
+        antwoord op de vraag of ik de juiste partner voor je ben.
+      </p>
+
+      <ol class="next reveal" aria-label="Wat er daarna gebeurt">
+        <li><span>1</span><div><strong>Je stuurt een kort bericht</strong>Geen briefing nodig. Ruwe ideeën zijn welkom.</div></li>
+        <li><span>2</span><div><strong>We bellen 20 minuten</strong>Een vrijblijvend gesprek over doelen en mogelijkheden.</div></li>
+        <li><span>3</span><div><strong>Je ontvangt een helder voorstel</strong>Vaste scope, vaste prijs, realistische planning.</div></li>
+      </ol>
+
+      <div class="direct reveal">
+        <p>Liever direct mailen?</p>
+        <div class="direct__row">
+          <a href={`mailto:${SITE.email}`} class="direct__mail">{SITE.email}</a>
+          <button type="button" class="copy" id="copyBtn" data-email={SITE.email} aria-live="polite">Kopieer</button>
+        </div>
+      </div>
+    </div>
+
+    <form class="form reveal" id="contactForm" data-email={SITE.email} novalidate>
+      <fieldset class="chips">
+        <legend>Waarmee kan ik helpen?</legend>
+        {services.map((s) => <label><input type="checkbox" name="service" value={s} /><span>{s}</span></label>)}
+      </fieldset>
+
+      <fieldset class="chips">
+        <legend>Indicatie budget <small>(zo kan ik de juiste aanpak voorstellen)</small></legend>
+        {budgets.map((b) => <label><input type="radio" name="budget" value={b} /><span>{b}</span></label>)}
+      </fieldset>
+
+      <div class="fields">
+        <div class="field">
+          <input id="name" name="name" type="text" autocomplete="name" placeholder=" " required />
+          <label for="name">Je naam</label>
+          <span class="field__err">Hoe mag ik je noemen?</span>
+        </div>
+        <div class="field">
+          <input id="email" name="email" type="email" autocomplete="email" placeholder=" " required />
+          <label for="email">E-mailadres</label>
+          <span class="field__err">Ik heb een geldig e-mailadres nodig om te antwoorden.</span>
+        </div>
+      </div>
+      <div class="field">
+        <textarea id="message" name="message" rows="4" placeholder=" "></textarea>
+        <label for="message">Een paar woorden over het project <small>(optioneel)</small></label>
+      </div>
+
+      <button type="submit" class="btn btn--solid btn--block">Verstuur aanvraag <span aria-hidden="true">→</span></button>
+      <p class="form__note">Geen nieuwsbrieven, geen salesfunnels. Gewoon een antwoord van mij.</p>
+
+      <div class="form__done" id="formDone" hidden>
+        <span class="form__check" aria-hidden="true">✓</span>
+        <h3>Dank je — je mailprogramma staat klaar.</h3>
+        <p>Klik daar op verzenden en je hoort binnen één werkdag van me.</p>
+      </div>
+    </form>
+  </div>
+</section>

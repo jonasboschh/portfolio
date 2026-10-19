@@ -1,0 +1,51 @@
+<!--
+  'Over mij' — staat UIT (je had deze sectie uitgecommentarieerd).
+  Aanzetten: zet <About /> terug in src/pages/index.astro en de link
+  "Over mij" in Nav.astro / Footer.astro.
+
+  LET OP voordat je hem aanzet: de tekst hieronder noemt "meer dan tien jaar"
+  ervaring en bevat een verzonnen quote. Herschrijf dit eerst naar je eigen,
+  eerlijke verhaal — Google en klanten waarderen echte ervaring (E-E-A-T).
+-->
+<section class="about" id="over">
+  <div class="wrap about__grid">
+    <div class="about__portrait reveal">
+      <!-- Vervang door een echte foto: <Image src={...} alt="Jonas Bosch" /> uit astro:assets -->
+      <div class="portrait" role="img" aria-label="Portret van Jonas Bosch">
+        <span class="portrait__mono">JB</span>
+        <span class="portrait__tag">Designer &amp; developer</span>
+      </div>
+      <div class="about__card">
+        <span class="dot" aria-hidden="true"></span>
+        <div><strong>Gevestigd in Nederland</strong><span>Voor klanten in heel Europa · <time id="localTime">--:--</time> lokale tijd</span></div>
+      </div>
+    </div>
+
+    <div class="about__text">
+      <p class="kicker reveal"><span>03</span> Over mij</p>
+      <h2 class="reveal">Ik ben Jonas. Ik werk waar <em>design, code en commerce</em> samenkomen.</h2>
+      <div class="about__copy reveal">
+        <p class="about__lead">Al meer dan tien jaar help ik oprichters, merken en gevestigde bedrijven hun website te veranderen van digitaal visitekaartje in hun hardst werkende verkoper.</p>
+        <p>Ik werk bewust zelfstandig. Dat betekent dat je rechtstreeks spreekt met degene die jouw site ontwerpt en de code schrijft — geen accountmanagers, geen briefings die onderweg verloren gaan.</p>
+        <p>Ik neem een beperkt aantal projecten tegelijk aan, zodat elk project de focus krijgt die het verdient.</p>
+      </div>
+
+      <ul class="principles reveal">
+        <li><span>i.</span><div><strong>Gemeten, niet gegokt.</strong> Elke beslissing is gekoppeld aan een cijfer dat voor jou telt.</div></li>
+        <li><span>ii.</span><div><strong>Standaard snel.</strong> Snelheid is een feature — en een rankingfactor.</div></li>
+        <li><span>iii.</span><div><strong>Volledig van jou.</strong> Schone, gedocumenteerde code. Geen lock-in. Nooit.</div></li>
+      </ul>
+
+      <figure class="quote reveal">
+        <blockquote>
+          <p>“Jonas heeft niet alleen een nieuwe webshop gebouwd — hij heeft opnieuw bedacht hoe wij online verkopen. In het eerste kwartaal was hij al terugverdiend.”</p>
+        </blockquote>
+        <figcaption><span class="quote__avatar" aria-hidden="true">ML</span><span><strong>Marit L.</strong> Oprichter, Noord Atelier</span></figcaption>
+      </figure>
+
+      <div class="stack reveal" aria-label="Tools en platformen">
+        <span>Figma</span><span>Next.js</span><span>React</span><span>Astro</span><span>Shopify Plus</span><span>WooCommerce</span><span>Sanity</span><span>Search Console</span><span>GA4</span>
+      </div>
+    </div>
+  </div>
+</section>

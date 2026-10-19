@@ -1,0 +1,47 @@
+---
+import { SITE } from "../../data/site";
+
+const facts = [
+  ["Beschikbaar", "Vanaf januari 2027"],
+  ["Inzet", "24–32 uur per week"],
+  ["Werkvorm", "Remote, hybride of op locatie"],
+  ["Duur", "Vanaf 1 maand, ook langlopend"],
+];
+const roles = [
+  "Front-end developer",
+  "Webdesigner / UI-designer",
+  "Shopify developer",
+  "WordPress / WooCommerce developer",
+  "SEO-specialist",
+  "Full-stack (React / Node)",
+];
+---
+
+<section class="freelance wrap" id="freelance">
+  <div class="freelance__card reveal">
+    <div class="freelance__glow" aria-hidden="true"></div>
+
+    <div class="freelance__intro">
+      <p class="freelance__status"><span class="dot" aria-hidden="true"></span> Beschikbaar voor freelance opdrachten</p>
+      <h2>Extra kracht<br />in je team? <em>Huur me in.</em></h2>
+      <p class="freelance__lede">
+        Voor bureaus, agencies en interne teams die tijdelijk versterking zoeken. Ik stap snel in, werk mee in jullie werkwijze en
+        tools, en lever vanaf week één.
+      </p>
+      <div class="freelance__actions">
+        <a href="#contact" class="btn btn--solid magnetic" data-preset="Freelance inhuur">Bespreek een opdracht <span aria-hidden="true">→</span></a>
+        {SITE.socials.linkedin && <a href={SITE.socials.linkedin} class="btn btn--ghost magnetic" rel="me noopener" target="_blank">Bekijk mijn LinkedIn</a>}
+      </div>
+    </div>
+
+    <div class="freelance__details">
+      <dl class="freelance__facts">
+        {facts.map(([dt, dd]) => <div><dt>{dt}</dt><dd>{dd}</dd></div>)}
+      </dl>
+      <div class="freelance__roles">
+        <p>Inzetbaar als</p>
+        <ul>{roles.map((r) => <li>{r}</li>)}</ul>
+      </div>
+    </div>
+  </div>
+</section>

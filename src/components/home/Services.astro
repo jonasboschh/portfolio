@@ -1,0 +1,69 @@
+---
+const services = [
+  {
+    name: "Webdesign",
+    short: "Merkgedreven sites die converteren",
+    text: "Je website is vaak de eerste kennismaking met een klant die jou kan betalen. Ik ontwerp sites die onmiskenbaar <em>jou</em> zijn — en bezoekers naar die ene actie leiden die ertoe doet.",
+    items: ["Positionering & boodschap", "UX & informatiearchitectuur", "Visuele designsystemen", "Een CMS dat je zelf kunt beheren"],
+  },
+  {
+    name: "Webapplicaties",
+    short: "Producten, portalen & tools",
+    text: "Van klantportalen tot interne dashboards en SaaS-MVP's. Doordacht productdesign met robuuste, onderhoudbare code — gebouwd om met je mee te groeien, niet om over een jaar herschreven te worden.",
+    items: ["Product- & interactiedesign", "React / Next.js / Node", "Login, betalingen & koppelingen", "Doorlopende doorontwikkeling"],
+  },
+  {
+    name: "SEO",
+    short: "Gevonden door kopers, niet door kijkers",
+    text: "Vindbaarheid in het fundament, niet achteraf toegevoegd. Technische gezondheid, contentstrategie en pagina's die aansluiten op zoekintentie — gemeten in omzet, niet in ijdele posities.",
+    items: ["Technische audits & Core Web Vitals", "Zoekwoord- & intentieonderzoek", "Contentarchitectuur", "Migraties zonder verkeersverlies"],
+  },
+  {
+    name: "Webshops",
+    short: "Winkels die verkopen terwijl jij slaapt",
+    text: "Shopify, WooCommerce of headless — gekozen voor jouw bedrijf, niet voor mijn voorkeur. Snelle productpagina's, een soepele checkout en koppelingen die je operatie rustig houden.",
+    items: ["Shopify & WooCommerce", "Headless commerce", "Checkout- & orderwaarde-optimalisatie", "Koppelingen met ERP, PIM, iDEAL & Mollie"],
+  },
+];
+
+const steps = [
+  ["Week 1", "Ontdekken", "Doelen, doelgroep en de cijfers die moeten bewegen. Je krijgt een heldere scope en een vaste prijs."],
+  ["Week 2–3", "Ontwerpen", "Onderbouwde concepten die je in de browser bekijkt, niet in statische pdf's."],
+  ["Week 3–7", "Bouwen", "Wekelijkse demo's op een live testomgeving. Geen black box, geen verrassingen."],
+  ["Na lancering", "Groeien", "Gecontroleerde livegang, daarna verbeteren op basis van echte data. Ik blijf zolang het waarde toevoegt."],
+];
+---
+
+<section class="services wrap" id="diensten">
+  <header class="section-head reveal">
+    <p class="kicker"><span>02</span> Diensten</p>
+    <h2>Vier disciplines.<br /><em>Eén aanspreekpunt.</em></h2>
+    <p class="section-head__aside">
+      Geen overdrachten tussen bureaus, geen verloren context. Strategie, design, code en vindbaarheid onder één dak — zodat er
+      niets tussen wal en schip valt.
+    </p>
+  </header>
+
+  <div class="services__list">
+    {
+      services.map((s, i) => (
+        <details class="service reveal" open={i === 0}>
+          <summary>
+            <span class="service__num">{String(i + 1).padStart(2, "0")}</span>
+            <h3 class="service__name">{s.name}</h3>
+            <span class="service__short">{s.short}</span>
+            <span class="service__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="service__body">
+            <p set:html={s.text} />
+            <ul>{s.items.map((item) => <li>{item}</li>)}</ul>
+          </div>
+        </details>
+      ))
+    }
+  </div>
+
+  <ol class="process reveal" aria-label="Zo verloopt een project">
+    {steps.map(([when, title, text]) => <li><span>{when}</span><h3>{title}</h3><p>{text}</p></li>)}
+  </ol>
+</section>

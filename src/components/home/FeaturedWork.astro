@@ -1,0 +1,35 @@
+---
+import CaseCard from "../CaseCard.astro";
+import type { Project } from "../../data/projects";
+
+interface Props {
+  projects: Project[];
+  total: number;
+}
+const { projects, total } = Astro.props;
+
+// Ritme: breed, normaal, normaal, breed (gespiegeld) — en zo verder
+const layoutFor = (i: number) => (i % 4 === 0 ? "wide" : i % 4 === 3 ? "wide-flip" : "normal");
+---
+
+<section class="work" id="werk">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <p class="kicker"><span>01</span> Geselecteerd werk</p>
+      <h2>Eerst het resultaat.<br /><em>Dan de pixels.</em></h2>
+      <p class="section-head__aside">
+        Een selectie recente opdrachten. Elk project begint met een bedrijfscijfer dat omhoog moet — en eindigt met een gemeten
+        resultaat.
+      </p>
+    </header>
+
+    <div class="cases">
+      {projects.map((p, i) => <CaseCard project={p} index={i} variant="featured" layout={layoutFor(i)} />)}
+    </div>
+
+    <div class="work__more reveal">
+      <p><strong>{total}</strong> projecten — webdesign, webapps, SEO, webshops en persoonlijk werk.</p>
+      <a href="/werk/" class="btn btn--light magnetic">Bekijk alle projecten <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>

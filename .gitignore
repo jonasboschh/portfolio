@@ -1,4 +1,19 @@
-.claude/
-.netlify/
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+
+# environment variables
+.env
+.env.production
+
+# OS / editor
 .DS_Store
 Thumbs.db
+.claude/
+.netlify/

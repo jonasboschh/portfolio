@@ -1,0 +1,25 @@
+---
+const path = Astro.url.pathname;
+const isHome = path === "/";
+const links = [
+  { href: "/werk/", label: "Werk", current: path.startsWith("/werk") },
+  { href: "/#diensten", label: "Diensten" },
+  { href: "/#freelance", label: "Freelance" },
+];
+---
+
+<header class="nav" id="nav">
+  <div class="nav__inner wrap">
+    <a href="/" class="brand" aria-label="Jonas Bosch, naar home" aria-current={isHome ? "page" : undefined}>
+      <span class="brand__mark">jb</span>
+      <span class="brand__name">Jonas Bosch</span>
+    </a>
+    <nav class="nav__links" id="navLinks" aria-label="Hoofdmenu">
+      {links.map((l) => <a href={l.href} aria-current={l.current ? "page" : undefined}>{l.label}</a>)}
+      <a href="/#contact" class="nav__cta magnetic">Start een project</a>
+    </nav>
+    <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Menu openen">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>

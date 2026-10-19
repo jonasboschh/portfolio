@@ -1,0 +1,51 @@
+---
+import BrowserMockup from "./BrowserMockup.astro";
+import { projectPath, type Project } from "../data/projects";
+
+interface Props {
+  project: Project;
+  index: number;
+  /** "featured" = homepage (met resultaten), "grid" = werk-overzicht */
+  variant?: "featured" | "grid";
+  layout?: "normal" | "wide" | "wide-flip";
+  headingLevel?: "h2" | "h3";
+}
+
+const { project, index, variant = "grid", layout = "normal", headingLevel = "h3" } = Astro.props;
+const { data } = project;
+const Heading = headingLevel;
+const cls = ["case", "reveal", layout !== "normal" && "case--wide", layout === "wide-flip" && "case--flip"];
+const personal = data.type === "Persoonlijk project";
+---
+
+<article
+  class:list={cls}
+  data-categories={data.categories.join(" ")}
+  data-personal={personal ? "true" : undefined}
+>
+  <a href={projectPath(project)} class="case__link">
+    <div class="case__visual" style={`--c1:${data.palette.c1};--c2:${data.palette.c2};--c3:${data.palette.c3}`} aria-hidden="true">
+      <BrowserMockup project={project} />
+    </div>
+    <div class="case__body">
+      <div class="case__meta">
+        <span class="case__no">({String(index + 1).padStart(2, "0")})</span>
+        <span>{data.label}</span><span>{data.tags}</span><span>{data.year}</span>
+        {personal && <span class="case__type">Persoonlijk</span>}
+      </div>
+      <Heading class="case__title">{data.name}</Heading>
+      <p>{data.summary}</p>
+      {
+        variant === "featured" && data.results.length > 0 ? (
+          <ul class="case__results">
+            {data.results.map((r) => (
+              <li><strong>{r.value}</strong><span>{r.label}</span></li>
+            ))}
+          </ul>
+        ) : (
+          <span class="case__more">Bekijk project <span aria-hidden="true">→</span></span>
+        )
+      }
+    </div>
+  </a>
+</article>

@@ -1,0 +1,94 @@
+---
+import "../styles/global.css";
+import { Font } from "astro:assets";
+import { SITE } from "../data/site";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  /** Volledige <title>. Houd hem onder ~60 tekens. */
+  title?: string;
+  /** Meta description, 120–160 tekens. */
+  description?: string;
+  /** Pad of URL naar een Open Graph-afbeelding (1200×630 px, PNG/JPG). */
+  image?: string;
+  imageAlt?: string;
+  /** true voor pagina's die niet in Google horen (bijv. 404). */
+  noindex?: boolean;
+  ogType?: "website" | "article";
+  /** Eén of meer schema.org-objecten (JSON-LD). */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** Tekst in de zwevende cursor boven projectkaarten. */
+  cursorLabel?: string;
+}
+
+const {
+  title = SITE.title,
+  description = SITE.description,
+  image,
+  imageAlt,
+  noindex = false,
+  ogType = "website",
+  jsonLd,
+  cursorLabel = "Bekijk project",
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image ? new URL(image, Astro.site).href : undefined;
+const schemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+
+<!doctype html>
+<html lang={SITE.lang} class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large"} />
+    <meta name="theme-color" content="#141210" />
+    <meta name="author" content={SITE.name} />
+    {SITE.googleSiteVerification && <meta name="google-site-verification" content={SITE.googleSiteVerification} />}
+
+    <!-- Open Graph (LinkedIn, WhatsApp, Facebook, Slack…) -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta property="og:image:width" content="1200" />}
+    {ogImage && <meta property="og:image:height" content="630" />}
+    {ogImage && imageAlt && <meta property="og:image:alt" content={imageAlt} />}
+    <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Zelf-gehoste lettertypes (zie `fonts` in astro.config.mjs) -->
+    <Font cssVariable="--font-serif" preload />
+    <Font cssVariable="--font-sans" preload />
+
+    <script is:inline>document.documentElement.classList.replace("no-js", "js");</script>
+    {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Direct naar inhoud</a>
+    <slot name="before" />
+    <div class="progress" id="progress" aria-hidden="true"></div>
+    <div class="cursor" id="cursor" aria-hidden="true"><span>{cursorLabel}</span></div>
+
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      import "../scripts/site";
+    </script>
+  </body>
+</html>

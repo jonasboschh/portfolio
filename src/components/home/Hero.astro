@@ -1,0 +1,82 @@
+---
+import BrowserMockup from "../BrowserMockup.astro";
+import type { Project } from "../../data/projects";
+
+interface Props {
+  projects: Project[];
+}
+
+// Kies voor de zwevende showcase een app, een webshop en een productpagina
+const { projects } = Astro.props;
+const pick = (visual: string, exclude: Project[] = []) =>
+  projects.find((p) => p.data.visual === visual && !exclude.includes(p)) ??
+  projects.find((p) => !exclude.includes(p));
+const back = pick("app");
+const mid = pick("shop", [back!].filter(Boolean));
+const front = pick("pdp", [back!, mid!].filter(Boolean));
+const layers = [
+  ["sc--back", back],
+  ["sc--mid", mid],
+  ["sc--front", front],
+] as const;
+const vars = (p: Project) => `--c1:${p.data.palette.c1};--c2:${p.data.palette.c2};--c3:${p.data.palette.c3}`;
+---
+
+<section class="hero" id="top">
+  <div class="hero__aura" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="hero__grid" aria-hidden="true"></div>
+
+  <div class="hero__inner wrap">
+    <div class="hero__top">
+      <p class="eyebrow hero-in" style="--d:0"><span class="dot" aria-hidden="true"></span> Ruimte voor 2 nieuwe projecten in Q1 2027</p>
+      <p class="hero__index hero-in" style="--d:1">Webdesign · Webapps · SEO · Webshops<br /><span>Onafhankelijk studio — Nederland</span></p>
+    </div>
+
+    <div class="hero__main">
+      <div class="hero__copy">
+        <h1 class="hero__title">
+          <span class="line"><span style="--d:1">Websites die</span></span>
+          <span class="line"><span style="--d:2">zichzelf</span></span>
+          <span class="line"><span style="--d:3"><em>terugverdienen.</em></span></span>
+        </h1>
+        <p class="hero__lede hero-in" style="--d:4">
+          Ik ontwerp en bouw snelle, vindbare websites, webapplicaties en webshops voor bedrijven die belang hechten aan hoe
+          ze overkomen&nbsp;— én aan wat het oplevert.
+        </p>
+        <div class="hero__actions hero-in" style="--d:5">
+          <a href="#contact" class="btn btn--solid magnetic">Start een project <span aria-hidden="true">→</span></a>
+          <a href="/werk/" class="btn btn--ghost magnetic">Bekijk het werk</a>
+        </div>
+      </div>
+
+      <div class="showcase hero-in" style="--d:6" aria-hidden="true">
+        <div class="showcase__stage" id="stage">
+          {layers.map(([cls, p]) => p && <div class={`sc ${cls}`} style={vars(p)}><BrowserMockup project={p} /></div>)}
+          <div class="sc-chip sc-chip--a"><strong>Snel</strong><span>geoptimaliseerd</span></div>
+          <div class="sc-chip sc-chip--b"><strong>Vindbaar</strong><span>SEO vanaf de basis</span></div>
+          <div class="sc-chip sc-chip--c"><strong>Mobiel</strong><span>mobile-first ontwerp</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Beloftes in plaats van cijfers: dingen die je vanaf je eerste project kunt waarmaken -->
+    <ul class="promises reveal" aria-label="Wat je van me mag verwachten">
+      <li>
+        <span class="promises__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span>
+        <strong>1 werkdag</strong><span>Reactie op elke aanvraag</span>
+      </li>
+      <li>
+        <span class="promises__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8L3 12z"></path><circle cx="7.5" cy="8.5" r="1.5"></circle></svg></span>
+        <strong>Vaste prijs</strong><span>Vooraf afgesproken</span>
+      </li>
+      <li>
+        <span class="promises__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 17a8 8 0 1 1 16 0"></path><path d="M12 17l4-5"></path></svg></span>
+        <strong>90<span class="plus">+</span></strong><span>PageSpeed-doel per site</span>
+      </li>
+      <li>
+        <span class="promises__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span>
+        <strong>1 op 1</strong><span>Direct contact met mij</span>
+      </li>
+    </ul>
+  </div>
+</section>

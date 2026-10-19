@@ -1,0 +1,64 @@
+---
+/**
+ * Gestileerde browser met een mini-website erin, opgebouwd in HTML/CSS.
+ * Vervang dit later gerust door echte screenshots (<Image /> uit astro:assets).
+ */
+import type { Project } from "../data/projects";
+
+interface Props {
+  project: Project;
+}
+const { data } = Astro.props.project;
+const bars = [40, 55, 48, 70, 62, 85, 78, 95];
+---
+
+<div class="browser">
+  <div class="browser__bar"><i></i><i></i><i></i><span>{data.domain}</span></div>
+  {
+    data.visual === "shop" && (
+      <div class="screen screen--shop">
+        <div class="s-nav"><b>{data.screen?.brand ?? data.name.toUpperCase()}</b><span></span><span></span><span></span></div>
+        <div class="s-hero">
+          <div class="s-hero__text"><em set:html={data.screen?.title ?? data.name} /><span class="s-btn"></span></div>
+          <div class="s-hero__img"></div>
+        </div>
+        <div class="s-grid"><span></span><span></span><span></span><span></span></div>
+      </div>
+    )
+  }
+  {
+    data.visual === "app" && (
+      <div class="screen screen--app">
+        <aside><span></span><span></span><span></span><span></span></aside>
+        <div class="s-dash">
+          <div class="s-kpis"><span></span><span></span><span></span></div>
+          <div class="s-chart">{bars.map((h) => <i style={`--h:${h}%`}></i>)}</div>
+        </div>
+      </div>
+    )
+  }
+  {
+    data.visual === "serp" && (
+      <div class="screen screen--serp">
+        <div class="s-search"><span></span></div>
+        <div class="s-result s-result--top"><b></b><span></span><span></span></div>
+        <div class="s-result"><b></b><span></span><span></span></div>
+        <div class="s-result"><b></b><span></span></div>
+        <div class="s-rank">#1</div>
+      </div>
+    )
+  }
+  {
+    data.visual === "pdp" && (
+      <div class="screen screen--pdp">
+        <div class="s-pdp__img"><span></span></div>
+        <div class="s-pdp__info">
+          <em set:html={data.screen?.title ?? data.name} />
+          <span></span><span></span><span class="short"></span>
+          <div class="s-swatches"><i></i><i></i><i></i></div>
+          <span class="s-btn"></span>
+        </div>
+      </div>
+    )
+  }
+</div>

@@ -1,0 +1,120 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CaseCard from "../../components/CaseCard.astro";
+import { getProjects, projectPath } from "../../data/projects";
+import { CATEGORY_LABELS } from "../../data/site";
+import { breadcrumbSchema, siteUrl } from "../../data/schema";
+
+const projects = await getProjects();
+
+const filters = [
+  ["alle", "Alle", projects.length],
+  ...Object.entries(CATEGORY_LABELS).map(([key, label]) => [
+    key,
+    label,
+    projects.filter((p) => p.data.categories.includes(key as never)).length,
+  ]),
+  ["persoonlijk", "Persoonlijk", projects.filter((p) => p.data.type === "Persoonlijk project").length],
+].filter(([, , count]) => (count as number) > 0) as [string, string, number][];
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Alle projecten",
+    url: siteUrl(Astro.site, "/werk/"),
+    inLanguage: "nl",
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: projects.map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: siteUrl(Astro.site, projectPath(p)),
+        name: p.data.name,
+      })),
+    },
+  },
+  breadcrumbSchema(Astro.site, [
+    ["Home", "/"],
+    ["Werk", "/werk/"],
+  ]),
+];
+---
+
+<BaseLayout
+  title="Portfolio: webdesign, webapps & webshops | Jonas Bosch"
+  description="Bekijk al mijn projecten: websites, webapplicaties, webshops en SEO-trajecten, plus persoonlijke projecten. Per project het hele verhaal en de aanpak."
+  jsonLd={jsonLd}
+>
+  <section class="page-hero work">
+    <div class="wrap">
+      <nav class="crumbs reveal" aria-label="Kruimelpad">
+        <ol><li><a href="/">Home</a></li><li aria-current="page">Werk</li></ol>
+      </nav>
+      <p class="kicker reveal"><span>01</span> Werk</p>
+      <h1 class="page-title reveal">Alle projecten.<br /><em>Groot en klein.</em></h1>
+      <p class="page-lede reveal">
+        Van webshops en webapplicaties tot persoonlijke projecten waarin ik nieuwe technieken uitprobeer. Klik op een project voor
+        het hele verhaal.
+      </p>
+
+      <div class="filterbar reveal">
+        <div class="filters" id="filters" role="group" aria-label="Filter projecten">
+          {
+            filters.map(([key, label, count]) => (
+              <button type="button" data-filter={key} aria-pressed={key === "alle" ? "true" : "false"}>
+                {label}
+                <sup>{count}</sup>
+              </button>
+            ))
+          }
+        </div>
+        <p class="filter-count" id="projectCount" aria-live="polite">{projects.length} projecten</p>
+      </div>
+
+      <div class="cases cases--all" id="projectGrid">
+        {projects.map((p, i) => <CaseCard project={p} index={i} headingLevel="h2" />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Filteren gebeurt in de browser; alle projecten staan al in de HTML (goed voor SEO).
+  const filters = document.getElementById("filters")!;
+  const cards = [...document.querySelectorAll<HTMLElement>("#projectGrid .case")];
+  const count = document.getElementById("projectCount")!;
+
+  const matches = (card: HTMLElement, key: string) =>
+    key === "alle" ||
+    (key === "persoonlijk" ? card.dataset.personal === "true" : (card.dataset.categories ?? "").split(" ").includes(key));
+
+  function apply(key: string) {
+    let visible = 0;
+    cards.forEach((card) => {
+      const show = matches(card, key);
+      card.hidden = !show;
+      if (show) {
+        card.classList.add("is-in");
+        card.style.animationDelay = `${visible * 70}ms`;
+        card.classList.remove("case--in");
+        void card.offsetWidth; // animatie opnieuw starten
+        card.classList.add("case--in");
+        visible++;
+      }
+    });
+    count.textContent = `${visible} ${visible === 1 ? "project" : "projecten"}`;
+    filters.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === key)));
+  }
+
+  filters.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-filter]");
+    if (!btn) return;
+    const key = btn.dataset.filter!;
+    history.replaceState(null, "", key === "alle" ? location.pathname : `#${key}`);
+    apply(key);
+  });
+
+  const start = location.hash.slice(1);
+  if (start && filters.querySelector(`[data-filter="${CSS.escape(start)}"]`)) apply(start);
+</script>

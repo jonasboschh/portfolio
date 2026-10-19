@@ -15,8 +15,8 @@
   --dark-line: rgba(243, 239, 232, .12);
   --dark-muted: #A39B90;
 
-  --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
-  --sans: "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: var(--font-serif, Georgia, "Times New Roman", serif);
+  --sans: var(--font-sans, system-ui, -apple-system, "Segoe UI", sans-serif);
 
   --wrap: 1240px;
   --gutter: clamp(16px, 4vw, 40px);
@@ -266,9 +266,9 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; }
 .case__body { padding-top: 28px; }
 .case__meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
 .case__meta span { font-size: 13px; padding: 5px 12px; border: 1px solid var(--dark-line); border-radius: 99px; color: var(--dark-muted); }
-.case h3 { font: 400 clamp(34px, 3.6vw, 48px)/1 var(--serif); margin-bottom: 14px; display: inline-flex; align-items: center; gap: 14px; }
-.case h3::after { content: "↗"; font: 400 .5em/1 var(--sans); color: var(--accent); opacity: 0; transform: translate(-6px, 6px); transition: .4s var(--ease); }
-.case__link:hover h3::after { opacity: 1; transform: none; }
+.case__title { font: 400 clamp(34px, 3.6vw, 48px)/1 var(--serif); margin-bottom: 14px; display: inline-flex; align-items: center; gap: 14px; }
+.case__title::after { content: "↗"; font: 400 .5em/1 var(--sans); color: var(--accent); opacity: 0; transform: translate(-6px, 6px); transition: .4s var(--ease); }
+.case__link:hover .case__title::after { opacity: 1; transform: none; }
 .case__body > p { color: var(--dark-muted); max-width: 520px; }
 .case__results { list-style: none; padding: 0; margin: 26px 0 0; display: flex; flex-wrap: wrap; gap: 28px 40px; border-top: 1px solid var(--dark-line); padding-top: 22px; }
 .case__results li { display: grid; }
@@ -447,7 +447,7 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; }
 .footer__big em { color: var(--accent); }
 .footer__cols { display: flex; gap: 64px; }
 .footer__cols div { display: grid; gap: 10px; align-content: start; font-size: 15px; }
-.footer__cols h4 { font-size: 13px; color: var(--dark-muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; font-weight: 500; }
+.footer__h { font-size: 13px; color: var(--dark-muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; font-weight: 500; }
 .footer__cols a:hover { color: var(--accent); }
 .footer__base { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-block: 28px; margin-top: 72px; border-top: 1px solid var(--dark-line); font-size: 13px; color: var(--dark-muted); }
 
@@ -523,7 +523,7 @@ body::after {
 .l-sans b { color: var(--accent); }
 @media (min-width: 900px) {
   .logos { grid-template-columns: 200px 1fr; align-items: center; }
-  .logos ul { grid-template-columns: repeat(6, auto); justify-content: space-between; }
+  .logos ul { grid-template-columns: repeat(3, auto); justify-content: space-between; }
 }
 
 /* Cases */
@@ -847,3 +847,27 @@ body::after {
 .cta-card p { color: rgba(243,239,232,.72); }
 .cta-card .btn--solid { background: #FBF7F1; color: var(--ink); margin-top: 8px; }
 .cta-card .btn--solid:hover { background: var(--accent); color: var(--accent-ink); }
+
+/* ==========================================================
+   Astro-aanvullingen
+   ========================================================== */
+.case[hidden] { display: none; }
+.footer__h { line-height: 1.6; }
+
+/* Kruimelpad */
+.crumbs { margin-bottom: 40px; font-size: 14px; }
+.crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; color: var(--dark-muted); }
+.crumbs li + li::before { content: "/"; margin-right: 8px; opacity: .5; }
+.crumbs a { color: var(--dark-muted); transition: color .3s; }
+.crumbs a:hover { color: var(--paper); }
+.crumbs [aria-current="page"] { color: rgba(243,239,232,.85); }
+
+/* Markdown-tekst op projectpagina's */
+.prose { display: grid; gap: 1em; }
+.prose p { margin: 0; }
+.prose a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.prose h3 { font: 400 26px/1.2 var(--serif); margin-top: .6em; }
+.prose ul, .prose ol { margin: 0; padding-left: 1.2em; font: 400 18px/1.6 var(--sans); color: var(--ink-2); }
+@media (min-width: 1200px) {
+  .logos ul { grid-template-columns: repeat(6, auto); }
+}
