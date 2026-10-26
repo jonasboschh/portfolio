@@ -14,7 +14,11 @@ const filters = [
     label,
     projects.filter((p) => p.data.categories.includes(key as never)).length,
   ]),
-  ["persoonlijk", "Persoonlijk", projects.filter((p) => p.data.type === "Persoonlijk project").length],
+  [
+    "persoonlijk",
+    "Persoonlijk",
+    projects.filter((p) => p.data.type === "Persoonlijk project").length,
+  ],
 ].filter(([, , count]) => (count as number) > 0) as [string, string, number][];
 
 const jsonLd = [
@@ -52,28 +56,45 @@ const jsonLd = [
         <ol><li><a href="/">Home</a></li><li aria-current="page">Werk</li></ol>
       </nav>
       <p class="kicker reveal"><span>01</span> Werk</p>
-      <h1 class="page-title reveal">Alle projecten.<br /><em>Groot en klein.</em></h1>
+      <h1 class="page-title reveal">
+        Alle projecten.<br /><em>Groot en klein.</em>
+      </h1>
       <p class="page-lede reveal">
-        Van webshops en webapplicaties tot persoonlijke projecten waarin ik nieuwe technieken uitprobeer. Klik op een project voor
-        het hele verhaal.
+        Van webshops en webapplicaties tot persoonlijke projecten waarin ik
+        nieuwe technieken uitprobeer. Klik op een project voor het hele verhaal.
       </p>
 
       <div class="filterbar reveal">
-        <div class="filters" id="filters" role="group" aria-label="Filter projecten">
+        <div
+          class="filters"
+          id="filters"
+          role="group"
+          aria-label="Filter projecten"
+        >
           {
             filters.map(([key, label, count]) => (
-              <button type="button" data-filter={key} aria-pressed={key === "alle" ? "true" : "false"}>
+              <button
+                type="button"
+                data-filter={key}
+                aria-pressed={key === "alle" ? "true" : "false"}
+              >
                 {label}
                 <sup>{count}</sup>
               </button>
             ))
           }
         </div>
-        <p class="filter-count" id="projectCount" aria-live="polite">{projects.length} projecten</p>
+        <p class="filter-count" id="projectCount" aria-live="polite">
+          {projects.length} projecten
+        </p>
       </div>
 
       <div class="cases cases--all" id="projectGrid">
-        {projects.map((p, i) => <CaseCard project={p} index={i} headingLevel="h2" />)}
+        {
+          projects.map((p, i) => (
+            <CaseCard project={p} index={i} headingLevel="h2" />
+          ))
+        }
       </div>
     </div>
   </section>
@@ -82,12 +103,16 @@ const jsonLd = [
 <script>
   // Filteren gebeurt in de browser; alle projecten staan al in de HTML (goed voor SEO).
   const filters = document.getElementById("filters")!;
-  const cards = [...document.querySelectorAll<HTMLElement>("#projectGrid .case")];
+  const cards = [
+    ...document.querySelectorAll<HTMLElement>("#projectGrid .case"),
+  ];
   const count = document.getElementById("projectCount")!;
 
   const matches = (card: HTMLElement, key: string) =>
     key === "alle" ||
-    (key === "persoonlijk" ? card.dataset.personal === "true" : (card.dataset.categories ?? "").split(" ").includes(key));
+    (key === "persoonlijk"
+      ? card.dataset.personal === "true"
+      : (card.dataset.categories ?? "").split(" ").includes(key));
 
   function apply(key: string) {
     let visible = 0;
@@ -104,17 +129,28 @@ const jsonLd = [
       }
     });
     count.textContent = `${visible} ${visible === 1 ? "project" : "projecten"}`;
-    filters.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === key)));
+    filters
+      .querySelectorAll("button")
+      .forEach((b) =>
+        b.setAttribute("aria-pressed", String(b.dataset.filter === key)),
+      );
   }
 
   filters.addEventListener("click", (e) => {
-    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-filter]");
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>(
+      "button[data-filter]",
+    );
     if (!btn) return;
     const key = btn.dataset.filter!;
-    history.replaceState(null, "", key === "alle" ? location.pathname : `#${key}`);
+    history.replaceState(
+      null,
+      "",
+      key === "alle" ? location.pathname : `#${key}`,
+    );
     apply(key);
   });
 
   const start = location.hash.slice(1);
-  if (start && filters.querySelector(`[data-filter="${CSS.escape(start)}"]`)) apply(start);
+  if (start && filters.querySelector(`[data-filter="${CSS.escape(start)}"]`))
+    apply(start);
 </script>

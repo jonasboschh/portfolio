@@ -8,13 +8,14 @@ export const SITE = {
   description:
     "Webdesigner en developer in België. Ik ontwerp en bouw snelle, vindbare websites, webapplicaties en webshops voor bedrijven die willen groeien.",
   jobTitle: "Webdesigner & developer",
-  lang: "be",
-  locale: "be_BE",
+  lang: "nl-BE",
+  locale: "nl_BE",
+  inLanguage: "nl-BE",
   // Let op: dit e-mailadres is een voorbeeld — vervang het door je echte adres.
   email: "hallo@jonasbosch.nl",
   country: "BE",
   region: "Vlaanderen",
-  // kvk: "00000000",
+  // BTW: "00000000",
   googleSiteVerification: "P16xafW5KFcSXE5WkqQcvat0o2qaSmKUWx_rWwF6ehc",
   // Laat leeg ("") wat je niet hebt; lege links worden nergens getoond.
   socials: {

@@ -6,14 +6,18 @@ const socials = socialLinks();
 
 <footer class="footer">
   <div class="wrap footer__inner">
-    <a href="/#contact" class="footer__big">Laten we iets<br /><em>moois bouwen.</em></a>
+    <a href="/#contact" class="footer__big"
+      >Laten we iets<br /><em>moois bouwen.</em></a
+    >
     <div class="footer__cols">
       {
         socials.length > 0 && (
           <div>
             <h2 class="footer__h">Elders</h2>
             {socials.map(([label, url]) => (
-              <a href={url} rel="me noopener" target="_blank">{label}</a>
+              <a href={url} rel="me noopener" target="_blank">
+                {label}
+              </a>
             ))}
           </div>
         )
@@ -29,7 +33,7 @@ const socials = socialLinks();
   </div>
   <div class="wrap footer__wordmark" aria-hidden="true">{SITE.name}</div>
   <div class="wrap footer__base">
-    <span>© {year} {SITE.name} · KvK {SITE.kvk}</span>
+    <!-- <span>© {year} {SITE.name} · KvK {SITE.kvk}</span> -->
     <span>Ontworpen &amp; gebouwd in eigen huis. Uiteraard.</span>
   </div>
 </footer>
