@@ -5,7 +5,7 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   // Pas dit aan zodra je een eigen domein hebt (bijv. https://jonasbosch.nl).
   // Wordt gebruikt voor canonical-URL's, Open Graph en de sitemap.
-  site: "https://boschh.netlify.app",
+  site: "https://jonasbosch.netlify.app/",
   trailingSlash: "always",
   prefetch: { prefetchAll: true, defaultStrategy: "hover" },
   // Lettertypes worden bij het bouwen gedownload en vanaf je eigen domein geserveerd
