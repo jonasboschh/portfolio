@@ -12,7 +12,7 @@ export const SITE = {
   locale: "nl_BE",
   inLanguage: "nl-BE",
   // Let op: dit e-mailadres is een voorbeeld — vervang het door je echte adres.
-  email: "hallo@jonasbosch.nl",
+  email: "boschjonas1994@gmail.com",
   country: "BE",
   region: "Vlaanderen",
   // BTW: "00000000",
